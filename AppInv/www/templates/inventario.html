@@ -3,7 +3,6 @@
     <ion-content>
         <h1>Inventario</h1>
 
-        {{Paso}}
 
         <div class="card">
             <div class="item item-text-wrap">
@@ -34,7 +33,13 @@
                 <div class="list" ng-show="MostrarError">
                     <div class="card">
                         <div class="item item-text-wrap">
-                            {{Error}}
+
+                            <div class="list">
+                                <a class="item item-icon-left" href="#">
+                                    <i ng-class="ImagenIcono" ></i>
+                                    {{Error}}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -60,7 +65,7 @@
                     </button>
                 </div>-->
 
-                <div class="MostrarDatos">
+                <div ng-show="MostrarDatos">
                     <div class="row">
                         <div class="col col-25">Codigo:</div>
                         <div class="col col-25">{{ObjRecibido.COD_PROD}}</div>

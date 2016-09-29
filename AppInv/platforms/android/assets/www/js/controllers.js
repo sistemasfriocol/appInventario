@@ -46,6 +46,8 @@ angular.module('starter.controllers', [])
     $scope.ListaBodegas = CargarBodegas();
     $scope.ColorCantidad = "";
     $scope.MostrarError = false;
+    $scope.ObjRecibido = { COD_PROD: "", Cantidad: "", Descripcion: "", Estante: "" };
+    $scope.ImagenIcono = "";
 
     $scope.MostrarDatos = false;
 
@@ -136,12 +138,14 @@ angular.module('starter.controllers', [])
             $scope.MostrarError = true;
             if (response.data == true) {
                 $scope.Error = "Guardado Satisfactoriamente";
+                $scope.ImagenIcono = "ion-checkmark-round";
                 $timeout(function () {
                     $scope.MostrarError = false;
                 }, 2000);
 
             } else {
                 $scope.Error = "Error al Guardar";
+                $scope.ImagenIcono = "ion-close-round";
                 $timeout(function () {
                     $scope.MostrarError = false;
                 }, 2000);
@@ -149,7 +153,8 @@ angular.module('starter.controllers', [])
 
         }, function errorCallback(response) {
             $scope.MostrarError = true;
-            $scope.Paso = "Error Al Guardar";
+            $scope.Error = "Error Al Guardar";
+            $scope.ImagenIcono = "ion-close-round";
             $timeout(function () {
 
                 $scope.MostrarError = false;
@@ -166,11 +171,18 @@ angular.module('starter.controllers', [])
         var Bodega = this.BodegaSeleccionada;
         var Cod = this.Cod;
         var Usuario = "-1";
-        var ObjRecibido;
+    
 
         var ObjetoEnviar = { 'IdConsecutivo': 1, 'COD_PROD': Cod, 'IdBodega': Bodega, 'Estante': 0 };
 
         var direccion = Cadena.getCadena().Cadena + 'api/ProductosBuscarInventario?cantidad=' + Cantidad + '&Usuario=' + Usuario;
+
+        $scope.ObjRecibido.COD_PROD = "";
+        $scope.ObjRecibido.Cantidad = "";
+        $scope.ObjRecibido.Descripcion = "";
+        $scope.ObjRecibido.Estante = "";
+
+        $scope.MostrarDatos = true;
 
         $http({
             method: 'PUT',
@@ -179,24 +191,38 @@ angular.module('starter.controllers', [])
         }).then(function successCallback(response) {
             $scope.MostarDatos = true;
             $scope.MostrarDatos = true;
+
+            $scope.MostrarError = true;
             if (response.data.Encontrado == true) {
                 $scope.ObjRecibido = response.data;
                 $scope.ColorCantidad = "";
+                $scope.Error = "Verificado Correctamente";
+                $scope.ImagenIcono = "ion-checkmark-round";
+
+                $timeout(function () {
+                    $scope.MostrarError = false;
+                }, 2000);
+
             } else {
                 $scope.Paso = "No coincide";
                 $scope.ObjRecibido = response.data;
                 $scope.ColorCantidad = "Rojo";
                 $scope.MostrarError = true;
                 $scope.Error = "Cantidad No Valida";
-
+                $scope.ImagenIcono = "ion-close-round";
                 $timeout(function () {
                     $scope.MostrarError = false;
-                }, 1000);
+                }, 2000);
             }
 
 
         }, function errorCallback(response) {
+            $scope.MostrarError = true;
             $scope.Paso = "Error";
+
+            $timeout(function () {
+                $scope.MostrarError = false;
+            }, 2000);
         });
 
 
