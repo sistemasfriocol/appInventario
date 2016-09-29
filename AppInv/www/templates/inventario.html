@@ -1,0 +1,97 @@
+﻿<ion-view view-title="Inventario">
+
+    <ion-content>
+        <h1>Inventario</h1>
+
+        {{Paso}}
+
+        <div class="card">
+            <div class="item item-text-wrap">
+                <div class="list">
+                    <label class="item item-input item-select">
+                        <div class="input-label">
+                            Bodega
+                        </div>
+                        <select ng-model="BodegaSeleccionada">
+                            <option ng- value="{{item.IdBodega}}" ng-repeat="item in ListaBodegas">{{item.Bodega1}}</option>
+                        </select>
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Codigo</span>
+                        <input type="text" ng-model="Cod">
+                    </label>
+                    <div ng-class="ColorCantidad">
+                        <label class="item item-input">
+                            <span class="input-label">Cantidad</span>
+                            <input type="text" ng-model="Cantidad">
+                        </label>
+                    </div>
+                    <button class="button button-block button-positive" ng-click="ClicBuscarDatos()">
+                        Buscar
+                    </button>
+
+                </div>
+                <div class="list" ng-show="MostrarError">
+                    <div class="card">
+                        <div class="item item-text-wrap">
+                            {{Error}}
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--<div class="list Datos" ng-show="MostarDatos">
+                    <div class="item item-divider">
+                        {{ProductosBuscaInventario.Descripcion}}
+                    </div>
+                    <label class="item item-input">
+                        <span class="input-label">Estante</span>
+                        <input type="text" ng-model="ProductosBuscaInventario.Estante">
+                    </label>
+                    <div ng-class="ColorBorde">
+                        <label class="item item-input">
+                            <span class="input-label">Cantidad</span>
+                            <input type="text" ng-model="Cantidad">
+                        </label>
+                    </div>
+
+                    <button class="button button-block button-positive" ng-click="CliGuardarConteo()">
+                        Guardar Conteo
+                    </button>
+                </div>-->
+
+                <div class="MostrarDatos">
+                    <div class="row">
+                        <div class="col col-25">Codigo:</div>
+                        <div class="col col-25">{{ObjRecibido.COD_PROD}}</div>
+                        <div class="col col-25">Cant.:</div>
+                        <div class="col col-25">{{ObjRecibido.Cantidad}}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-50">Descripcion:</div>
+
+                    </div>
+                    <div>
+                        <div class="col ">{{ObjRecibido.Descripcion}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-50">Unidad:</div>
+                        <div class="col col-25">{{}}</div>
+                    </div>
+                    <label class="item item-input">
+                        <span class="input-label">Estante</span>
+                        <input type="text" ng-model="ObjRecibido.Estante">
+                    </label>
+
+                    <button class="button button-block button-positive" ng-click="CLicCambiarEstante()">
+                        Cambiar Estante
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+
+</ion-view>
+

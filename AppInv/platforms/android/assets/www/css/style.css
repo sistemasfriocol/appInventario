@@ -1,1 +1,16 @@
 /* Empty. Add your own CSS if you like */
+
+.Rojo{
+    
+    color:red;
+     border: 2px solid red;
+    border-radius: 4px; 
+
+}
+
+/*.Rojo input[type=text] {
+    color:red;
+    border: 2px solid red;
+    border-radius: 4px;
+
+}*/
