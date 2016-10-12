@@ -49,6 +49,9 @@ angular.module('starter.controllers', [])
     $scope.ObjRecibido = { COD_PROD: "", Cantidad: "", Descripcion: "", Estante: "" };
     $scope.ImagenIcono = "";
 
+    $scope.Cod = "";
+    $scope.Cantidad = "";
+
     $scope.MostrarDatos = false;
 
     function CargarBodegas() {
@@ -119,6 +122,12 @@ angular.module('starter.controllers', [])
         });
     }
 
+    $scope.CLicLimpiarProductoBuscar = function () {
+
+        this.Cod = "";
+        this.Cantidad = "";
+    }
+
     $scope.CLicCambiarEstante = function () {
 
 
@@ -171,23 +180,25 @@ angular.module('starter.controllers', [])
         var Bodega = this.BodegaSeleccionada;
         var Cod = this.Cod;
         var Usuario = "-1";
-    
+
 
         var ObjetoEnviar = { 'IdConsecutivo': 1, 'COD_PROD': Cod, 'IdBodega': Bodega, 'Estante': 0 };
 
         var direccion = Cadena.getCadena().Cadena + 'api/ProductosBuscarInventario?cantidad=' + Cantidad + '&Usuario=' + Usuario;
 
-        $scope.ObjRecibido.COD_PROD = "";
-        $scope.ObjRecibido.Cantidad = "";
-        $scope.ObjRecibido.Descripcion = "";
-        $scope.ObjRecibido.Estante = "";
+        var objRe;
+
+        objRe.COD_PROD = "";
+        objRe.Cantidad = "";
+        objRe.Descripcion = "";
+        objRe.Estante = "";
 
         $scope.MostrarDatos = true;
 
         $http({
             method: 'PUT',
             url: direccion,
-            data: ObjetoEnviar
+            data: objRe
         }).then(function successCallback(response) {
             $scope.MostarDatos = true;
             $scope.MostrarDatos = true;
@@ -233,6 +244,118 @@ angular.module('starter.controllers', [])
 
 
 })
+
+    .controller('Reconteo1Ctrl', function ($scope, Cadena, $http, $timeout) {
+
+        $scope.ListaBodegas = CargarBodegas();
+        $scope.idBodega;
+        $scope.ListaProdRecontar;
+        $scope.Mostrar = "asd";
+        $scope.MostarCabeza = "true";
+        $scope.proddDetalle;
+        $scope.CantidadNueva;
+
+        function CargarBodegas() {
+
+            var direccion = Cadena.getCadena().Cadena + 'api/Bodegas';
+
+            $http({
+                method: 'GET',
+                url: direccion
+            }).then(function successCallback(response) {
+                $scope.ListaBodegas = response.data;
+            }, function errorCallback(response) {
+
+                //alert("Error");
+
+                $scope.AlertaTitulo = "Error al Buscar la Bodega";
+                $scope.AlertaMensaje = "Mo se Pudieron cargar las Bodegas";
+
+                $scope.showAlert();
+
+            });
+
+            return '';
+        };
+
+
+        $scope.ClicDetalle = function (prod) {
+            $scope.proddDetalle = prod;
+            $scope.MostarCabeza = false;
+        }
+
+        $scope.ClicCancelar = function () {
+            $scope.MostarCabeza = true;
+        }
+
+        $scope.atras = function () {
+            $scope.MostarCabeza = true;
+        }
+
+        $scope.CLicGuardarReconteo = function () {
+            $scope.proddDetalle = this.proddDetalle;
+            $scope.idBodega = this.BodegaSeleccionada;
+            var Cant = this.CantidadNueva;
+
+            var direccion = Cadena.getCadena().Cadena + 'api/ProductosBuscarInventario?idBodega=' + $scope.idBodega;
+
+            $scope.proddDetalle.Cantidad = Cant;
+
+            //$scope.ObjRecibido.COD_PROD = "";
+            //$scope.ObjRecibido.Cantidad = "";
+            //$scope.ObjRecibido.Descripcion = "";
+            //$scope.ObjRecibido.Estante = "";
+
+            $http({
+                method: 'POST',
+                url: direccion,
+                data: $scope.proddDetalle
+            }).then(function successCallback(response) {
+                $scope.ListaProdRecontar = response.data;
+
+            }, function errorCallback(response) {
+
+                //alert("Error");
+
+                $scope.AlertaTitulo = "Error al Buscar la Bodega";
+                $scope.AlertaMensaje = "Mo se Pudieron cargar las Bodegas";
+
+                $scope.showAlert();
+
+            });
+        }
+        $scope.ClicBuscar = function () {
+
+            var Bode = this.BodegaSeleccionada;
+            $scope.idBodega = Bode;
+            var Estante = this.Estante;
+
+            var direccion = Cadena.getCadena().Cadena + 'api/ProductosBuscarInventario?Estante=' + Estante + '&IdBodega=' + Bode;
+
+            $http({
+                method: 'POST',
+                url: direccion
+            }).then(function successCallback(response) {
+                $scope.ListaProdRecontar = response.data;
+
+            }, function errorCallback(response) {
+
+                //alert("Error");
+
+                $scope.AlertaTitulo = "Error al Buscar la Bodega";
+                $scope.AlertaMensaje = "Mo se Pudieron cargar las Bodegas";
+
+                $scope.showAlert();
+
+            });
+
+            return '';
+        }
+
+        $scope.ClicBuscarDatos = function () {
+        }
+
+    })
 
 .controller('PlaylistsCtrl', function ($scope) {
     $scope.playlists = [

@@ -59,6 +59,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           }
       }
   })
+
+      .state('app.Reconteo1', {
+          url: '/Reconteo1',
+          views: {
+              'menuContent': {
+                  templateUrl: 'templates/reconteo1.html',
+                  controller: 'Reconteo1Ctrl'
+                  
+              }
+          }
+      })
+
     .state('app.playlists', {
       url: '/playlists',
       views: {
