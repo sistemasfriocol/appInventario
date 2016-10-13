@@ -186,19 +186,19 @@ angular.module('starter.controllers', [])
 
         var direccion = Cadena.getCadena().Cadena + 'api/ProductosBuscarInventario?cantidad=' + Cantidad + '&Usuario=' + Usuario;
 
-        var objRe;
+        //var objRe;
 
-        objRe.COD_PROD = "";
-        objRe.Cantidad = "";
-        objRe.Descripcion = "";
-        objRe.Estante = "";
+        //objRe.COD_PROD = "";
+        //objRe.Cantidad = "";
+        //objRe.Descripcion = "";
+        //objRe.Estante = "";
 
         $scope.MostrarDatos = true;
 
         $http({
             method: 'PUT',
             url: direccion,
-            data: objRe
+            data: ObjetoEnviar
         }).then(function successCallback(response) {
             $scope.MostarDatos = true;
             $scope.MostrarDatos = true;
@@ -292,7 +292,7 @@ angular.module('starter.controllers', [])
             $scope.MostarCabeza = true;
         }
 
-        $scope.CLicGuardarReconteo = function () {
+        $scope.CLicGuardarReconteo = function (indice) {
             $scope.proddDetalle = this.proddDetalle;
             $scope.idBodega = this.BodegaSeleccionada;
             var Cant = this.CantidadNueva;
@@ -307,12 +307,14 @@ angular.module('starter.controllers', [])
             //$scope.ObjRecibido.Estante = "";
 
             $http({
-                method: 'POST',
+                method: 'PUT',
                 url: direccion,
                 data: $scope.proddDetalle
             }).then(function successCallback(response) {
-                $scope.ListaProdRecontar = response.data;
-
+                //$scope.ListaProdRecontar = response.data;
+                $scope.MostarCabeza = true;
+                $scope.ListaProdRecontar.splice(indice, 1);
+                //fruits.splice(2, 1);
             }, function errorCallback(response) {
 
                 //alert("Error");
